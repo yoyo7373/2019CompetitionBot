@@ -9,11 +9,13 @@ package frc.robot.teleopcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.subsystems.CargoArm;
 
-public class TeleopDrive extends Command {
-  public TeleopDrive() {
+public class TeleopCargoShoot extends Command {
+  public TeleopCargoShoot() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.drivetrain);
+    requires(Robot.cargoArm);
   }
 
   // Called just before this Command runs the first time
@@ -24,21 +26,24 @@ public class TeleopDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double y = Robot.oi.getDriveY();
-    double z = Robot.oi.getDriveX();
-    
-    Robot.drivetrain.arcade(y, z);
+    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON)){
+      Robot.cargoArm.shootOut();
+    }
+    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_IN_BUTTON)){
+      Robot.cargoArm.shootIn();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON) == false);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.cargoArm.stopShoot();
   }
 
   // Called when another command which requires one or more of the same

@@ -24,6 +24,7 @@ public class CargoArm extends Subsystem {
 
   private double gearBoxReduction = 1;
   private double coefficient = (360 * gearBoxReduction / 4096);
+  public static double startingAngle = 150; //see note on HatchArm
 
   
   private CANSparkMax shoot = new CANSparkMax(RobotMap.SHOOT, MotorType.kBrushed);
@@ -50,7 +51,7 @@ public class CargoArm extends Subsystem {
   }
 
   public double getAngle() {
-    return cargoArm.getSelectedSensorPosition() + 150;
+    return cargoArm.getSelectedSensorPosition() + startingAngle;
   }
 
   public void shootOut() {

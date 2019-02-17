@@ -24,7 +24,7 @@ public class HatchArm extends Subsystem {
 
   private double gearBoxReduction = 1;
   private double coefficient = (360 * gearBoxReduction / 4096);
-
+  public static double startingAngle = 90; //is it a problem if i have two public variables with the same name java is a bad language?
 
   private WPI_TalonSRX hatchArm = new WPI_TalonSRX(RobotMap.ARM_HATCH); 
   
@@ -48,13 +48,13 @@ public class HatchArm extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void setHatchArm(double speed) {
-    hatchArm.set(speed);
+  public void set(double value) { // changed this from "setHatchArm" for clarity and ease of reading
+    hatchArm.set(value);
   }
 
   //TODO get actual angle
   public double getAngle() {
-    return hatchArm.getSelectedSensorPosition() + 90;
+    return hatchArm.getSelectedSensorPosition() + startingAngle;
   }
 
   public void forwardRelease() {
