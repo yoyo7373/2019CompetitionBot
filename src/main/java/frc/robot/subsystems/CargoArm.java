@@ -7,10 +7,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -23,16 +24,16 @@ public class CargoArm extends Subsystem {
 
   private double gearBoxReduction = 1;
 
-  private CANSparkMax cargoArm = new CANSparkMax(RobotMap.ARM_CARGO, MotorType.kBrushed);
+  
   private CANSparkMax shoot = new CANSparkMax(RobotMap.SHOOT, MotorType.kBrushed);
-
-  private Encoder cargoArmEncoder = new Encoder(RobotMap.CARGO_ENCODER_A, RobotMap.CARGO_ENCODER_B);
+  private WPI_TalonSRX cargoArm = new WPI_TalonSRX(RobotMap.ARM_CARGO); //dummy value
 
   public CargoArm() {
-    cargoArmEncoder.setMaxPeriod(.1);
-    cargoArmEncoder.setMinRate(10);
-    cargoArmEncoder.setDistancePerPulse(1 / 4096 * gearBoxReduction * 360.0 );
-    cargoArmEncoder.setSamplesToAverage(7);
+
+    cargoArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    cargoArm.setSensorPhase(false); //????
+    cargoArm.setSelectedSensorPosition(0, 0, 0);
+    
   }
 
   @Override
@@ -45,8 +46,8 @@ public class CargoArm extends Subsystem {
     cargoArm.set(speed);
   }
 
-  public void getAngle() {
-    cargoArmEncoder.getDistance();
+  public double getAngle() {
+    return ((cargoArm.getSelectedSensorPosition() /4096.0 )* gearBoxReduction * 360.0);
   }
 
   public void shootOut() {
