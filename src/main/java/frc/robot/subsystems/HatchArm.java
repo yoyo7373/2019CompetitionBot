@@ -7,11 +7,11 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -23,18 +23,23 @@ public class HatchArm extends Subsystem {
   // here. Call these from Commands.
 
   private double gearBoxReduction = 1;
+  private double coefficient = (360 * gearBoxReduction / 4096);
 
-  private CANSparkMax hatchArm = new CANSparkMax(RobotMap.ARM_HATCH, MotorType.kBrushed);
-  private Encoder hatchEncoder = new Encoder(RobotMap.HATCH_ENCODER_A, RobotMap.HATCH_ENCODER_B);
 
+  private WPI_TalonSRX hatchArm = new WPI_TalonSRX(RobotMap.ARM_HATCH); 
+  
+  private DoubleSolenoid hatchLimb = new DoubleSolenoid(RobotMap.LIMB_SOLENOID_CHANNEL_IN, RobotMap.LIMB_SOLENOID_CHANNEL_OUT); 
   private DoubleSolenoid hatchRelease = new DoubleSolenoid(RobotMap.HATCH_SOLENDOID_CHANNEL_IN, RobotMap.HATCH_SOLENOID_CHANNEL_OUT);
 
+
+
   public HatchArm() {
-    hatchEncoder.setMaxPeriod(.1);
-    hatchEncoder.setMinRate(10);
-    hatchEncoder.setDistancePerPulse(1 / 4096 * gearBoxReduction * 360.0 );
-    hatchEncoder.setSamplesToAverage(7);
-    hatchArm.getEncoder();
+
+    hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    hatchArm.configSelectedFeedbackCoefficient(coefficient);
+    hatchArm.setSensorPhase(false); //????
+    hatchArm.setSelectedSensorPosition(0, 0, 0);
+ 
   }
 
   @Override
@@ -49,18 +54,30 @@ public class HatchArm extends Subsystem {
 
   //TODO get actual angle
   public double getAngle() {
-    return hatchEncoder.getDistance();
+    return hatchArm.getSelectedSensorPosition() + 90;
   }
 
-  public void forward() {
+  public void forwardRelease() {
     hatchRelease.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void reverse() {
+  public void reverseRelease() {
     hatchRelease.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void stop() {
+  public void stopRelease() {
     hatchRelease.set(DoubleSolenoid.Value.kOff);
+  }
+
+  public void forwardLimb() {
+    hatchLimb.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void reverseLimb() {
+    hatchLimb.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void stopLimb() {
+    hatchLimb.set(DoubleSolenoid.Value.kOff);
   }
 }
