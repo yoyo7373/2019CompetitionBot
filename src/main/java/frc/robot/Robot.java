@@ -24,7 +24,7 @@ import frc.robot.subsystems.CargoArm;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.HatchArm;
-import frc.robot.teleopCommands.TeleopCameraController;
+import frc.robot.teleopcommands.TeleopCameraController;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
