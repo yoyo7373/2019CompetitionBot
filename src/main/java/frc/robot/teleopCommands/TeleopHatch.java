@@ -9,6 +9,7 @@ package frc.robot.teleopcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class TeleopHatch extends Command {
   public TeleopHatch() {
@@ -24,6 +25,15 @@ public class TeleopHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.HATCH_PUSH_IN)) {
+      Robot.hatchArm.forwardRelease();
+    }
+    if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.HATCH_PUSH_OUT)) {
+      Robot.hatchArm.reverseRelease();
+    }
+    if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.HATCH_STOP)) {
+      Robot.hatchArm.stopRelease();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

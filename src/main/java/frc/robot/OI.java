@@ -1,36 +1,23 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.*;
-import edu.wpi.first.wpilibj.buttons.*;
-
-import frc.robot.subsystems.*;
-import frc.robot.*;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AutoAlignCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    public final Joystick driveStick;
-    public final Joystick operatorStick;
+    public final Joystick driveStick = new Joystick(0);
+    public final Joystick operatorStick = new Joystick(1);
 
     private Button autoAlignButton;
-    private Button shootOutButton;
-    private Button shootInButton;
 
     public OI() {
-
-        this.driveStick = new Joystick(0);
-        this.operatorStick = new Joystick(1);
-
-        this.autoAlignButton = new JoystickButton(driveStick, RobotMap.AUTOALIGNBUTTON);
-        this.autoAlignButton.whenPressed(new AutoAlignCommand());
-
-        this.shootOutButton = new JoystickButton(operatorStick, RobotMap.SHOOT_IN_BUTTON);
-        this.shootInButton = new JoystickButton(operatorStick, RobotMap.SHOOT_OUT_BUTTON);
-
+        autoAlignButton = new JoystickButton(driveStick, RobotMap.AUTO_ALIGN_BUTTON);
+        autoAlignButton.whenPressed(new AutoAlignCommand());
       }
 
       // Drive Stick
