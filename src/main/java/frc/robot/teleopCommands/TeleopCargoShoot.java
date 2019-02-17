@@ -26,15 +26,18 @@ public class TeleopCargoShoot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOTBUTTON)){
-    Robot.cargoArm.shootOut();
+    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON)){
+      Robot.cargoArm.shootOut();
+    }
+    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_IN_BUTTON)){
+      Robot.cargoArm.shootIn();
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Robot.oi.isOperatorButtonDown(RobotMap.SHOOTBUTTON) == false);
+    return (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON) == false);
   }
 
   // Called once after isFinished returns true

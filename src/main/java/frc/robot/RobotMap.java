@@ -38,7 +38,8 @@ public class RobotMap {
     //Joystick Buttons
 
     //Operator Buttons
-    public static final int SHOOTBUTTON = 1;
+    public static final int SHOOT_OUT_BUTTON = 1;
+    public static final int SHOOT_IN_BUTTON = 2;
 
     //Drive Buttons
     public static final int AUTOALIGNBUTTON = 3;

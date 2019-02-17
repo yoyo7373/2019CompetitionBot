@@ -17,7 +17,8 @@ public class OI {
     public final Joystick operatorStick;
 
     private Button autoAlignButton;
-    private Button shootButton;
+    private Button shootOutButton;
+    private Button shootInButton;
 
     public OI() {
 
@@ -27,7 +28,8 @@ public class OI {
         this.autoAlignButton = new JoystickButton(driveStick, RobotMap.AUTOALIGNBUTTON);
         this.autoAlignButton.whenPressed(new AutoAlignCommand());
 
-        this.shootButton = new JoystickButton(operatorStick, RobotMap.SHOOTBUTTON);
+        this.shootOutButton = new JoystickButton(operatorStick, RobotMap.SHOOT_IN_BUTTON);
+        this.shootInButton = new JoystickButton(operatorStick, RobotMap.SHOOT_OUT_BUTTON);
 
       }
 
