@@ -21,10 +21,19 @@ public class CargoArm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  private double gearBoxReduction = 1;
+
   private CANSparkMax cargoArm = new CANSparkMax(RobotMap.ARM_CARGO, MotorType.kBrushed);
   private CANSparkMax shoot = new CANSparkMax(RobotMap.SHOOT, MotorType.kBrushed);
 
   private Encoder cargoArmEncoder = new Encoder(RobotMap.CARGO_ENCODER_A, RobotMap.CARGO_ENCODER_B);
+
+  public CargoArm() {
+    cargoArmEncoder.setMaxPeriod(.1);
+    cargoArmEncoder.setMinRate(10);
+    cargoArmEncoder.setDistancePerPulse(1 / 4096 * gearBoxReduction * 360.0 );
+    cargoArmEncoder.setSamplesToAverage(7);
+  }
 
   @Override
   public void initDefaultCommand() {

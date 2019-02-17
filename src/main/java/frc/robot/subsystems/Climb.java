@@ -21,9 +21,17 @@ public class Climb extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CANSparkMax climbMotor = new CANSparkMax(RobotMap.CLIMB, MotorType.kBrushed);
+  private double gearBoxReduction = 1;
 
   private Encoder climbEncoder = new Encoder(RobotMap.CLIMB_ENCODER_A, RobotMap.CLIMB_ENCODER_B);
+
+
+  public Climb() {
+    climbEncoder.setMaxPeriod(.1);
+    climbEncoder.setMinRate(10);
+    climbEncoder.setDistancePerPulse(1 / 4096 * gearBoxReduction * 360.0 );
+    climbEncoder.setSamplesToAverage(7);
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -32,7 +40,7 @@ public class Climb extends Subsystem {
   }
 
   public void setClimbMotor(double speed) {
-    climbMotor.set(speed);
+    //climbMotor.set(speed);
   }
 
   public double getAngle() {
