@@ -21,11 +21,14 @@ public class Climb extends Subsystem {
   // here. Call these from Commands.
 
   private double gearBoxReduction = 1;
+  private double coefficient = (360 * gearBoxReduction / 4096);
+
 
   private WPI_TalonSRX climb = new WPI_TalonSRX(RobotMap.CLIMB);
 
   public Climb() {
     climb.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    climb.configSelectedFeedbackCoefficient(coefficient);
     climb.setSensorPhase(false); //??
     climb.setSelectedSensorPosition(0, 0, 0);
   }
@@ -41,6 +44,6 @@ public class Climb extends Subsystem {
   }
 
   public double getAngle() {
-    return ((climb.getSelectedSensorPosition() /4096.0 )* gearBoxReduction * 360.0);
+    return climb.getSelectedSensorPosition();
   }
 }

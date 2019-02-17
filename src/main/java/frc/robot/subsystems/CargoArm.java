@@ -23,6 +23,7 @@ public class CargoArm extends Subsystem {
   // here. Call these from Commands.
 
   private double gearBoxReduction = 1;
+  private double coefficient = (360 * gearBoxReduction / 4096);
 
   
   private CANSparkMax shoot = new CANSparkMax(RobotMap.SHOOT, MotorType.kBrushed);
@@ -31,8 +32,10 @@ public class CargoArm extends Subsystem {
   public CargoArm() {
 
     cargoArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    cargoArm.configSelectedFeedbackCoefficient(coefficient);
     cargoArm.setSensorPhase(false); //????
     cargoArm.setSelectedSensorPosition(0, 0, 0);
+    
     
   }
 
@@ -47,7 +50,7 @@ public class CargoArm extends Subsystem {
   }
 
   public double getAngle() {
-    return ((cargoArm.getSelectedSensorPosition() /4096.0 )* gearBoxReduction * 360.0);
+    return cargoArm.getSelectedSensorPosition() + 150;
   }
 
   public void shootOut() {

@@ -23,6 +23,8 @@ public class HatchArm extends Subsystem {
   // here. Call these from Commands.
 
   private double gearBoxReduction = 1;
+  private double coefficient = (360 * gearBoxReduction / 4096);
+
 
   private WPI_TalonSRX hatchArm = new WPI_TalonSRX(RobotMap.ARM_HATCH); 
   
@@ -34,6 +36,7 @@ public class HatchArm extends Subsystem {
   public HatchArm() {
 
     hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    hatchArm.configSelectedFeedbackCoefficient(coefficient);
     hatchArm.setSensorPhase(false); //????
     hatchArm.setSelectedSensorPosition(0, 0, 0);
  
@@ -51,7 +54,7 @@ public class HatchArm extends Subsystem {
 
   //TODO get actual angle
   public double getAngle() {
-    return ((hatchArm.getSelectedSensorPosition() /4096.0 )* gearBoxReduction * 360.0);
+    return hatchArm.getSelectedSensorPosition() + 90;
   }
 
   public void forwardRelease() {
