@@ -17,56 +17,55 @@ public class OI {
     public final Joystick operatorStick;
 
     private Button autoAlignButton;
-    public static final int AUTOALIGNBUTTON = 3;
     private Button shootButton;
-    public static final int SHOOTBUTTON = 7;
-    
+
     public OI() {
+
         this.driveStick = new Joystick(0);
         this.operatorStick = new Joystick(1);
 
-        this.autoAlignButton = new JoystickButton(driveStick, OI.AUTOALIGNBUTTON);
+        this.autoAlignButton = new JoystickButton(driveStick, RobotMap.AUTOALIGNBUTTON);
         this.autoAlignButton.whenPressed(new AutoAlignCommand());
 
-        this.shootButton = new JoystickButton(operatorStick, OI.SHOOTBUTTON);
+        this.shootButton = new JoystickButton(operatorStick, RobotMap.SHOOTBUTTON);
 
       }
 
       // Drive Stick
     public double getDriveX() {
-        return this.driveStick.getX();
+        return driveStick.getX();
     }
 
     public double getDriveY() {
-        return this.driveStick.getY();
+        return driveStick.getY();
     }
 
     public double getDriveZ() {
-        return this.driveStick.getZ();
+        return driveStick.getZ();
     }
     public double getDriveThrottle() {
-        return this.driveStick.getThrottle();
+        return driveStick.getThrottle();
     }
     public boolean isDriveButtonDown(int buttonNumber) {
-        return this.driveStick.getRawButton(buttonNumber);
+        return driveStick.getRawButton(buttonNumber);
     }
     
     public double getOperatorX() {
-        return this.operatorStick.getX();
+        return operatorStick.getX();
     }
     public double getOperatorY() {
-        return this.operatorStick.getY();
+        return operatorStick.getY();
     }
     public double getOperatorZ() {
-        return this.operatorStick.getZ();
+        return operatorStick.getZ();
     }
     public double getOperatorThrottle() {
-        return this.operatorStick.getThrottle();
+        return operatorStick.getThrottle();
     }
     public boolean isOperatorButtonDown(int buttonNumber) {
-        return this.operatorStick.getRawButton(buttonNumber);
+        return operatorStick.getRawButton(buttonNumber);
     }
     public int getOperatorPOV() {
-        return this.operatorStick.getPOV();
+        return operatorStick.getPOV();
     }
 }

@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
   private NetworkTable visionTable = inst.getTable("TestTable");
 
   public static OI oi = new OI();
+  
 
   private Command teleopCameraController = new TeleopCameraController();
 

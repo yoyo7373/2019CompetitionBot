@@ -35,4 +35,12 @@ public class RobotMap {
     public final static int LIMB_SOLENOID_CHANNEL_OUT = 3; 
     public final static int PCM_ID = 61;
 
+    //Joystick Buttons
+
+    //Operator Buttons
+    public static final int SHOOTBUTTON = 1;
+
+    //Drive Buttons
+    public static final int AUTOALIGNBUTTON = 3;
+
 }
