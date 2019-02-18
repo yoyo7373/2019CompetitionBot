@@ -40,10 +40,13 @@ public class RobotMap {
     //Operator Buttons
     public static final int SHOOT_OUT_BUTTON = 1;
     public static final int SHOOT_IN_BUTTON = 2;
+    public static final int CAMERA_BUTTON_SWITCH_SIDES = 11;
+    public static final int CAMERA_BUTTON_UPDOWN = 12;
+    public static final int HATCH_PUSH_OUT = 3;
+    public static final int HATCH_PUSH_IN = 4;
+    public static final int HATCH_STOP = 5;
 
     //Drive Buttons
     public static final int AUTO_ALIGN_BUTTON = 3;
-    public static final int CAMERA_BUTTON_SWITCH_SIDES = 11;
-    public static final int CAMERA_BUTTON_UPDOWN = 12;
 
 }
