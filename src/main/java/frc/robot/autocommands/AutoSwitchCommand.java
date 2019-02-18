@@ -23,50 +23,50 @@ public class AutoSwitchCommand extends CommandGroup {
       return;
 
       case "rightFront":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Front" + startPosition + ".right.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
 
       return;
 
-      case "rightClose":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "rightFirst":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/First" + startPosition + ".right.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "rightMid":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "rightSecond":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Second" + startPosition + ".right.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "rightFar":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "rightThird":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Third" + startPosition + ".right.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "leftFront":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Front" + startPosition + ".left.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftClose":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "leftFirst":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/First" + startPosition + ".left.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftMid":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "leftSecond":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Second" + startPosition + ".left.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftFar":
-      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      case "leftThird":
+      addSequential(new FollowPathCommand("/home/lvuser/deploy/Third"+ startPosition + ".left.pf1.csv"));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
