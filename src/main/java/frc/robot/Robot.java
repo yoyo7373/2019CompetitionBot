@@ -58,9 +58,6 @@ public class Robot extends TimedRobot {
   EncoderFollower leftFollower;
   EncoderFollower rightFollower;
 
-  private NetworkTableInstance inst = NetworkTableInstance.getDefault();
-  private NetworkTable visionTable = inst.getTable("TestTable");
-
   public static OI oi = new OI();
   
 
@@ -189,9 +186,6 @@ public class Robot extends TimedRobot {
       driveTrain.tank(leftOutput + turnTraj, rightOutput - turnTraj);
       break;
     case kVisionAuto:
-      System.out.println("CenterX:" + visionTable.getEntry("centerX").getDouble(0));
-      //double turn = visionTable.getEntry("centerX").getDouble(0) - (320 / 2);
-      //driveTrain.arcade(0, turn * 0.005);
       break;
     }
   }

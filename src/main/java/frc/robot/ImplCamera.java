@@ -2,6 +2,8 @@ package frc.robot;
 
 public class ImplCamera extends BaseCamera {
 
+    
+
     @Override
     protected double getLeftX() {
         return 0;

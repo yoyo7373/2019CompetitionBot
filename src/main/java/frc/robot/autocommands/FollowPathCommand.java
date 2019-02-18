@@ -20,19 +20,17 @@ public class FollowPathCommand extends Command {
   private String fileLocationRight;
 
   public FollowPathCommand(String fileLocationLeft, String fileLocationRight) {
-
     this.fileLocationLeft = fileLocationLeft;
     this.fileLocationRight = fileLocationRight;
-
-        // Use requires() here to declare subsystem dependencies
+    // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
-    File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
+    File leftFile = new File(fileLocationLeft);
+    File rightFile = new File(fileLocationRight);
     Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
     Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
     Robot.driveTrain.trajectoryFollowInit(leftTraj, rightTraj);
@@ -41,6 +39,7 @@ public class FollowPathCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.driveTrain.trajectoryFollowRun();
   }
 
   // Make this return true when this Command no longer needs to run execute()
