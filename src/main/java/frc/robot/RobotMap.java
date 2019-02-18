@@ -4,6 +4,9 @@ public class RobotMap {
 
     //ALL DUMMY VALUES!!!
 
+    //Camera values
+    public static final int CAMERA_WIDTHPX = 320;
+
     //Left drive motors
     public static final int LEFT_DRIVE_1 = 4;
     public static final int LEFT_DRIVE_2 = 5;
