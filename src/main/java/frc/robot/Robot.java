@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import com.revrobotics.CANEncoder;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -20,7 +18,6 @@ import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.HatchArm;
 import frc.robot.teleopcommands.TeleopCameraController;
-import jaci.pathfinder.followers.EncoderFollower;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,9 +29,9 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
-  private static final String kVisionAuto = "VisionFollow";
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> startingPosition = new SendableChooser<>();
+  private final SendableChooser<String> endingPosition = new SendableChooser<>();
   
   public static BaseCamera camera = new ImplCamera();
 
@@ -58,8 +55,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    startingPosition.setDefaultOption("", object);
+    endingPosition.setDefaultOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFront", "rightFront");
+    SmartDashboard.putData("Starting Position", endingPosition);
   }
 
   /**
@@ -89,8 +93,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    m_autoSelected = kVisionAuto;
+    m_autoSelected = endingPosition.getSelected();
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
     // System.out.println("Auto selected: " + m_autoSelected);
@@ -111,8 +114,6 @@ public class Robot extends TimedRobot {
     case kDefaultAuto:
       // Put default auto code here
       // System.out.println("Auto periodic run");
-      break;
-    case kVisionAuto:
       break;
     }
   }
