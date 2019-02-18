@@ -13,22 +13,68 @@ public class AutoSwitchCommand extends CommandGroup {
   /**
    * Add your docs here.
    */
+  private String autoMovement = "dummy value";
+  private int startPosition = 1;
+
   public AutoSwitchCommand() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
+    switch(autoMovement){
+      case "":
+      return;
 
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
+      case "rightFront":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+
+      return;
+
+      case "rightClose":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "rightMid":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "rightFar":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "leftFront":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "leftClose":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "leftMid":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+      case "leftFar":
+      addSequential(new FollowPathCommand(autoMovement + startPosition));
+      addSequential(new DriveToTargetCommand());
+      addSequential(new PlaceHatchCommand());
+      return;
+
+    }
+
+
+
+   
   }
 }
