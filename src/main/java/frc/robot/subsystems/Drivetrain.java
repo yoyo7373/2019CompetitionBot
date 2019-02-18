@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem {
   //Solenoid to control gear shift
   private DoubleSolenoid gearShiftLeft;
   private DoubleSolenoid gearShiftRight;
-  private Boolean fast = true;
+  private boolean fast = true;
 
   //Orientation Swap
 
@@ -111,7 +111,7 @@ public class DriveTrain extends Subsystem {
     tank(leftOutput + turnTraj, rightOutput - turnTraj);
   } 
   public void tank(double left, double right) {
-    drive.tankDrive(left, right);
+    drive.tankDrive(left * reverseDirection, right * reverseDirection);
   }
 
   public void arcade(double ySpeed, double zRotation) {
