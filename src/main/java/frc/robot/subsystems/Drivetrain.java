@@ -20,31 +20,31 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class Drivetrain extends Subsystem {
+public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  //Left motor controllers
+  // Left motor controllers
   private CANSparkMax left1 = new CANSparkMax(RobotMap.LEFT_DRIVE_1, MotorType.kBrushless);
   private CANSparkMax left2 = new CANSparkMax(RobotMap.LEFT_DRIVE_2, MotorType.kBrushless);
   private CANSparkMax left3 = new CANSparkMax(RobotMap.LEFT_DRIVE_3, MotorType.kBrushless);
 
   private SpeedControllerGroup leftMotors = new SpeedControllerGroup(left1, left2, left3);
 
-  //Right motor controllers
+  // Right motor controllers
   private CANSparkMax right1 = new CANSparkMax(RobotMap.RIGHT_DRIVE_1, MotorType.kBrushless);
   private CANSparkMax right2 = new CANSparkMax(RobotMap.RIGHT_DRIVE_2, MotorType.kBrushless);
   private CANSparkMax right3 = new CANSparkMax(RobotMap.RIGHT_DRIVE_3, MotorType.kBrushless);
 
   private SpeedControllerGroup rightMotors = new SpeedControllerGroup(right1, right2, right3);
 
-  //Drive controller
+  // Drive controller
   private DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
-  //Gyto
+  // Gyto
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-  public Drivetrain() {
+  public DriveTrain() {
     // Set up gyro
     gyro.calibrate();
 

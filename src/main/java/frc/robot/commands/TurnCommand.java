@@ -13,7 +13,7 @@ public class TurnCommand extends Command {
     private PIDController pid;
 
     public TurnCommand(double angle) {
-        this.requires(Robot.drivetrain);
+        this.requires(Robot.driveTrain);
         this.pid = new PIDController(
             Constants.GYRO_TURN_P, 
             Constants.GYRO_TURN_I, 
@@ -29,7 +29,7 @@ public class TurnCommand extends Command {
             
                 @Override
                 public double pidGet() {
-                    return Robot.drivetrain.getAngle();
+                    return Robot.driveTrain.getAngle();
                 }
             
                 @Override
@@ -41,7 +41,7 @@ public class TurnCommand extends Command {
             
                 @Override
                 public void pidWrite(double output) {
-                    Robot.drivetrain.arcade(0, output * Constants.GYRO_TURN_CONSTANT);
+                    Robot.driveTrain.arcade(0, output * Constants.GYRO_TURN_CONSTANT);
                 }
             });
 

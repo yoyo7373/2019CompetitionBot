@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CameraController;
 import frc.robot.subsystems.CargoArm;
 import frc.robot.subsystems.Climb;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.HatchArm;
 import frc.robot.teleopcommands.TeleopCameraController;
 import jaci.pathfinder.Pathfinder;
@@ -43,14 +43,14 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   
   public static BaseCamera camera = new ImplCamera();
-  public static Drivetrain drivetrain = new Drivetrain();
+  public static DriveTrain driveTrain = new DriveTrain();
   public static CameraController cameraController = new CameraController();
   public static CargoArm cargoArm = new CargoArm();
   public static Climb climb = new Climb();
   public static HatchArm hatchArm = new HatchArm();
 
-  private CANEncoder leftEncoder = drivetrain.getLeftEncoder();
-  private CANEncoder rightEncoder = drivetrain.getRightEncoder();
+  private CANEncoder leftEncoder = driveTrain.getLeftEncoder();
+  private CANEncoder rightEncoder = driveTrain.getRightEncoder();
 
   private EncoderFollower leftFollower;
   private EncoderFollower rightFollower;
@@ -71,28 +71,26 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    m_chooser.addOption("")
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    // System.out.println("Running robot init");
-    File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
-    File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
-    Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
-    Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
-    // for (int i = 0; i < leftTraj.length(); i++) {
-    // System.out.println(leftTraj.get(i).velocity);
-    // }
-    leftFollower = new EncoderFollower(leftTraj);
-    rightFollower = new EncoderFollower(rightTraj);
-
-    // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
-    // right encoder is different: 250 ticks/revolution
-    leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
-    rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
-
-    leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
-    rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
+        // System.out.println("Running robot init");
+        File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
+        File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
+        Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
+        Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
+        // for (int i = 0; i < leftTraj.length(); i++) {
+        // System.out.println(leftTraj.get(i).velocity);
+        // }
+        leftFollower = new EncoderFollower(leftTraj);
+        rightFollower = new EncoderFollower(rightTraj);
+    
+        // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
+        // right encoder is different: 250 ticks/revolution
+        leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
+        rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
+    
+        leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
+        rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
   }
 
   /**
@@ -168,22 +166,11 @@ public class Robot extends TimedRobot {
     case kDefaultAuto:
       // Put default auto code here
       // System.out.println("Auto periodic run");
-      double leftOutput = leftFollower.calculate((int) leftEncoder.getPosition());
-      double rightOutput = rightFollower.calculate((int) rightEncoder.getPosition());
-
-      // double gyro_heading = gyro.getAngle() % 360;
-      // double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
-
-      // double angleDifference = Pathfinder.boundHalfDegrees(desired_heading -
-      // gyro_heading);
-      // double turn = 0.8 * (-1.0/80.0) * angleDifference;
-      double turnTraj = 0;
-      drivetrain.tank(leftOutput + turnTraj, rightOutput - turnTraj);
       break;
     case kVisionAuto:
       System.out.println("CenterX:" + visionTable.getEntry("centerX").getDouble(0));
       //double turn = visionTable.getEntry("centerX").getDouble(0) - (320 / 2);
-      //drivetrain.arcade(0, turn * 0.005);
+      //driveTrain.arcade(0, turn * 0.005);
       break;
     }
   }
