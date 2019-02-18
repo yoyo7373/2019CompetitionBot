@@ -22,10 +22,20 @@ public class HatchArm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  private double gearBoxReduction = 1;
+
   private CANSparkMax hatchArm = new CANSparkMax(RobotMap.ARM_HATCH, MotorType.kBrushed);
   private Encoder hatchEncoder = new Encoder(RobotMap.HATCH_ENCODER_A, RobotMap.HATCH_ENCODER_B);
 
   private DoubleSolenoid hatchRelease = new DoubleSolenoid(RobotMap.HATCH_SOLENDOID_CHANNEL_IN, RobotMap.HATCH_SOLENOID_CHANNEL_OUT);
+
+  public HatchArm() {
+    hatchEncoder.setMaxPeriod(.1);
+    hatchEncoder.setMinRate(10);
+    hatchEncoder.setDistancePerPulse(1 / 4096 * gearBoxReduction * 360.0 );
+    hatchEncoder.setSamplesToAverage(7);
+    hatchArm.getEncoder();
+  }
 
   @Override
   public void initDefaultCommand() {
