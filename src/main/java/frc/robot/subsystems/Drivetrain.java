@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.followers.EncoderFollower;
 
 /**
  * Add your docs here.
@@ -41,8 +43,15 @@ public class DriveTrain extends Subsystem {
   // Drive controller
   private DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
+  private CANEncoder leftEncoder = left1.getEncoder();
+  private CANEncoder rightEncoder = right1.getEncoder();
+
   // Gyto
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
+  //Trajectory encoder followers
+  private EncoderFollower leftFollower;
+  private EncoderFollower rightFollower;
 
   public DriveTrain() {
     // Set up gyro
@@ -55,9 +64,35 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(null);
+    //setDefaultCommand(null);
   }
 
+  public void trajectoryFollowInit(Trajectory leftTraj, Trajectory rightTraj) {
+    leftFollower = new EncoderFollower(leftTraj);
+    rightFollower = new EncoderFollower(rightTraj);
+
+    // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
+    // right encoder is different: 250 ticks/revolution
+    leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
+    rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
+
+    leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
+    rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
+  }
+
+  public void trajectoryFollowRun() {
+    double leftOutput = leftFollower.calculate((int) leftEncoder.getPosition());
+    double rightOutput = rightFollower.calculate((int) rightEncoder.getPosition());
+
+    // double gyro_heading = gyro.getAngle() % 360;
+    // double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
+
+    // double angleDifference = Pathfinder.boundHalfDegrees(desired_heading -
+    // gyro_heading);
+    // double turn = 0.8 * (-1.0/80.0) * angleDifference;
+    double turnTraj = 0;
+    tank(leftOutput + turnTraj, rightOutput - turnTraj);
+  } 
   public void tank(double left, double right) {
     drive.tankDrive(left, right);
   }
@@ -71,11 +106,11 @@ public class DriveTrain extends Subsystem {
   }
 
   public CANEncoder getLeftEncoder() {
-    return left1.getEncoder();
+    return leftEncoder;
   }
 
   public CANEncoder getRightEncoder() {
-    return right1.getEncoder();
+    return rightEncoder;
   }
   public double getAngle() {
     return gyro.getAngle();
