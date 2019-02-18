@@ -29,19 +29,19 @@ public class AutoSwitchCommand extends CommandGroup {
 
       return;
 
-      case "rightClose":
+      case "rightFirst":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "rightMid":
+      case "rightSecond":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "rightFar":
+      case "rightThird":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
@@ -53,19 +53,19 @@ public class AutoSwitchCommand extends CommandGroup {
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftClose":
+      case "leftFirst":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftMid":
+      case "leftSecond":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
-      case "leftFar":
+      case "leftThird":
       addSequential(new FollowPathCommand(autoMovement + startPosition));
       addSequential(new DriveToTargetCommand());
       addSequential(new PlaceHatchCommand());
