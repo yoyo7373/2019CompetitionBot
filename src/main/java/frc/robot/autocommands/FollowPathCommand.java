@@ -10,7 +10,10 @@ package frc.robot.autocommands;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class FollowPathCommand extends Command {
-  public FollowPathCommand() {
+
+  String pathFile;
+  public FollowPathCommand(String file) {
+    this.pathFile = file;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
