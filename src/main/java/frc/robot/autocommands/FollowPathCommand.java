@@ -20,6 +20,29 @@ public class FollowPathCommand extends Command {
   private String fileLocationRight;
 
   public FollowPathCommand(String fileLocationLeft, String fileLocationRight) {
+          // System.out.println("Auto init done");
+      // in meters
+      double maxVelocity = 2.0;
+      double maxAccel = 2.0;
+      double maxJerk = 60.0;
+
+      // generate trajectory
+      /*
+       * Waypoint[] points = new Waypoint[] { new Waypoint(-4, -1,
+       * Pathfinder.d2r(-45)), // Waypoint @ x=-4, y=-1, exit angle=-45 degrees new
+       * Waypoint(-2, -2, 0), // Waypoint @ x=-2, y=-2, exit angle=0 radians new
+       * Waypoint(0, 0, 0) // Waypoint @ x=0, y=0, exit angle=0 radians };
+       * Trajectory.Config config = new
+       * Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
+       * Trajectory.Config.SAMPLES_HIGH, 0.02, maxVelocity, maxAccel, maxJerk);
+       * Trajectory trajectory = Pathfinder.generate(points, config);
+       * 
+       * 
+       * // 0.6m = 23.75 in wheelbase (dist b/w left and right wheel) TankModifier
+       * modifier = new TankModifier(trajectory).modify(0.6); leftFollower = new
+       * EncoderFollower(modifier.getLeftTrajectory()); rightFollower = new
+       * EncoderFollower(modifier.getRightTrajectory());
+       */
     this.fileLocationLeft = fileLocationLeft;
     this.fileLocationRight = fileLocationRight;
     // Use requires() here to declare subsystem dependencies

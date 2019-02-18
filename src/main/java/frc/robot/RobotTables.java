@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
@@ -19,7 +18,19 @@ public class RobotTables {
     private NetworkTableInstance inst = NetworkTableInstance.getDefault();
     private NetworkTable visionTable = inst.getTable("TestTable");
 
-    public int getCenterX(){
+    public int getCenterX() {
         return (int) visionTable.getEntry("centerX").getDouble(RobotMap.CAMERA_WIDTHPX / 2);
+    }
+
+    public int leftTargetX() {
+        return (int) visionTable.getEntry("leftTarget").getDouble(RobotMap.CAMERA_WIDTHPX / 2);
+    }
+
+    public int rightTargetX() {
+        return (int) visionTable.getEntry("rightTarget").getDouble(RobotMap.CAMERA_WIDTHPX / 2);
+    }
+
+    public double distanceTarget() {
+        return (int) visionTable.getEntry("distanceTarget").getDouble(0);
     }
 }

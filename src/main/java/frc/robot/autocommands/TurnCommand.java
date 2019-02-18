@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.autocommands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
