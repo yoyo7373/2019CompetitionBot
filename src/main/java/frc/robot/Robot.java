@@ -13,7 +13,6 @@ import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,7 +38,6 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
   private static final String kVisionAuto = "VisionFollow";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -53,10 +51,9 @@ public class Robot extends TimedRobot {
 
   private CANEncoder leftEncoder = drivetrain.getLeftEncoder();
   private CANEncoder rightEncoder = drivetrain.getRightEncoder();
-  private ADXRS450_Gyro gyro = drivetrain.getGyro();
 
-  EncoderFollower leftFollower;
-  EncoderFollower rightFollower;
+  private EncoderFollower leftFollower;
+  private EncoderFollower rightFollower;
 
   private NetworkTableInstance inst = NetworkTableInstance.getDefault();
   private NetworkTable visionTable = inst.getTable("TestTable");
@@ -75,6 +72,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.addOption("")
     SmartDashboard.putData("Auto choices", m_chooser);
 
     // System.out.println("Running robot init");
@@ -131,11 +129,8 @@ public class Robot extends TimedRobot {
     // System.out.println("Auto selected: " + m_autoSelected);
 
     switch (m_autoSelected) {
-    case kCustomAuto:
-      break;
     case kDefaultAuto:
       // System.out.println("Auto init done");
-      gyro.reset();
       // in meters
       double maxVelocity = 2.0;
       double maxAccel = 2.0;
@@ -170,9 +165,6 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
     switch (m_autoSelected) {
-    case kCustomAuto:
-      // Put custom auto code here
-      break;
     case kDefaultAuto:
       // Put default auto code here
       // System.out.println("Auto periodic run");

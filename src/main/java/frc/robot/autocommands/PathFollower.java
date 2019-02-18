@@ -8,16 +8,18 @@
 package frc.robot.autocommands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class PathFollower extends Command {
   public PathFollower() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
