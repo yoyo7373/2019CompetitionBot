@@ -33,7 +33,13 @@ import frc.robot.teleopcommands.TeleopHatch;
 public class Robot extends TimedRobot {
 
   /*TODO:
-  1) Implement Joystick commands*/
+  1) Implement Joystick commands
+  2) test all solenoids
+  3) tune drive encoders
+  4) tune hatch mechanism
+  5) tune autoallign
+  6) create trajectories
+  7) tune arm angle*/
 
   private final SendableChooser<String> startingPosition = new SendableChooser<>();
   private final SendableChooser<String> endingPosition = new SendableChooser<>();
