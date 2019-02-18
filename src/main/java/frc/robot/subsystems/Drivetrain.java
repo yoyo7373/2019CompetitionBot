@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -46,19 +47,32 @@ public class DriveTrain extends Subsystem {
   private CANEncoder leftEncoder = left1.getEncoder();
   private CANEncoder rightEncoder = right1.getEncoder();
 
-  // Gyto
+  // Gyro
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   //Trajectory encoder followers
   private EncoderFollower leftFollower;
   private EncoderFollower rightFollower;
 
+  //Solenoid to control gear shift
+  private DoubleSolenoid gearShiftLeft;
+  private DoubleSolenoid gearShiftRight;
+  private Boolean fast = true;
+
   public DriveTrain() {
+
+    gearShiftRight = new DoubleSolenoid(RobotMap.GS_RIGHT_SOLENOID_CHANNEL_IN, RobotMap.GS_RIGHT_SOLENOID_CHANNEL_OUT);
+    gearShiftRight.set(DoubleSolenoid.Value.kForward);
+    gearShiftLeft= new DoubleSolenoid(RobotMap.GS_LEFT_SOLENOID_CHANNEL_IN, RobotMap.GS_LEFT_SOLENOID_CHANNEL_OUT);
+    gearShiftLeft.set(DoubleSolenoid.Value.kForward);
+
     // Set up gyro
     gyro.calibrate();
-
+    //set gearshift
+    
     // Enable drivetrain
     drive.setSafetyEnabled(false);
+    
   }
 
   @Override
@@ -100,6 +114,19 @@ public class DriveTrain extends Subsystem {
   public void arcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
   }
+
+  public void shiftUp() {
+    fast = true;
+    gearShiftLeft.set(DoubleSolenoid.Value.kForward);
+    gearShiftRight.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void shiftDown() {
+    fast = false;
+    gearShiftLeft.set(DoubleSolenoid.Value.kReverse);
+    gearShiftRight.set(DoubleSolenoid.Value.kReverse);
+  }
+
 
   public ADXRS450_Gyro getGyro() {
     return gyro;
