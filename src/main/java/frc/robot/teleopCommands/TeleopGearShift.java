@@ -5,37 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.autocommands;
-
-import java.io.File;
+package frc.robot.teleopcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
 
-public class FollowPathCommand extends Command {
-
-  private String fileLocationLeft;
-  private String fileLocationRight;
-
-  public FollowPathCommand(String fileLocationLeft, String fileLocationRight) {
-
-    this.fileLocationLeft = fileLocationLeft;
-    this.fileLocationRight = fileLocationRight;
-
-        // Use requires() here to declare subsystem dependencies
+public class TeleopGearShift extends Command {
+  public TeleopGearShift() {
+    // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
-    File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
-    Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
-    Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
-    Robot.driveTrain.trajectoryFollowInit(leftTraj, rightTraj);
   }
 
   // Called repeatedly when this Command is scheduled to run

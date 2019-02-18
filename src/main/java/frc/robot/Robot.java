@@ -13,6 +13,7 @@ import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -38,6 +39,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
   private static final String kVisionAuto = "VisionFollow";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -51,9 +53,10 @@ public class Robot extends TimedRobot {
 
   private CANEncoder leftEncoder = driveTrain.getLeftEncoder();
   private CANEncoder rightEncoder = driveTrain.getRightEncoder();
+  private ADXRS450_Gyro gyro = driveTrain.getGyro();
 
-  private EncoderFollower leftFollower;
-  private EncoderFollower rightFollower;
+  EncoderFollower leftFollower;
+  EncoderFollower rightFollower;
 
   private NetworkTableInstance inst = NetworkTableInstance.getDefault();
   private NetworkTable visionTable = inst.getTable("TestTable");
@@ -71,26 +74,27 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-        // System.out.println("Running robot init");
-        File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
-        File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
-        Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
-        Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
-        // for (int i = 0; i < leftTraj.length(); i++) {
-        // System.out.println(leftTraj.get(i).velocity);
-        // }
-        leftFollower = new EncoderFollower(leftTraj);
-        rightFollower = new EncoderFollower(rightTraj);
-    
-        // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
-        // right encoder is different: 250 ticks/revolution
-        leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
-        rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
-    
-        leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
-        rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
+    // System.out.println("Running robot init");
+    File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
+    File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
+    Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
+    Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
+    // for (int i = 0; i < leftTraj.length(); i++) {
+    // System.out.println(leftTraj.get(i).velocity);
+    // }
+    leftFollower = new EncoderFollower(leftTraj);
+    rightFollower = new EncoderFollower(rightTraj);
+
+    // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
+    // right encoder is different: 250 ticks/revolution
+    leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
+    rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
+
+    leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
+    rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
   }
 
   /**
@@ -127,8 +131,11 @@ public class Robot extends TimedRobot {
     // System.out.println("Auto selected: " + m_autoSelected);
 
     switch (m_autoSelected) {
+    case kCustomAuto:
+      break;
     case kDefaultAuto:
       // System.out.println("Auto init done");
+      gyro.reset();
       // in meters
       double maxVelocity = 2.0;
       double maxAccel = 2.0;
@@ -163,9 +170,23 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
     switch (m_autoSelected) {
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
     case kDefaultAuto:
       // Put default auto code here
       // System.out.println("Auto periodic run");
+      double leftOutput = leftFollower.calculate((int) leftEncoder.getPosition());
+      double rightOutput = rightFollower.calculate((int) rightEncoder.getPosition());
+
+      // double gyro_heading = gyro.getAngle() % 360;
+      // double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
+
+      // double angleDifference = Pathfinder.boundHalfDegrees(desired_heading -
+      // gyro_heading);
+      // double turn = 0.8 * (-1.0/80.0) * angleDifference;
+      double turnTraj = 0;
+      driveTrain.tank(leftOutput + turnTraj, rightOutput - turnTraj);
       break;
     case kVisionAuto:
       System.out.println("CenterX:" + visionTable.getEntry("centerX").getDouble(0));
@@ -179,6 +200,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     super.teleopInit();
     teleopCameraController.start();
+    
   }
 
   /**

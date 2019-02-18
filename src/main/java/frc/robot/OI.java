@@ -14,6 +14,7 @@ public class OI {
     public final Joystick operatorStick = new Joystick(1);
 
     private Button autoAlignButton;
+    
 
     public OI() {
         autoAlignButton = new JoystickButton(driveStick, RobotMap.AUTO_ALIGN_BUTTON);
