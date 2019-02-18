@@ -7,20 +7,21 @@
 
 package frc.robot;
 
-import com.revrobotics.CANEncoder;
-
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autocommands.AutoSwitchCommand;
 import frc.robot.subsystems.CameraController;
 import frc.robot.subsystems.CargoArm;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.HatchArm;
+import frc.robot.teleopcommands.SmartDash;
 import frc.robot.teleopcommands.TeleopCameraController;
-import jaci.pathfinder.followers.EncoderFollower;
+import frc.robot.teleopcommands.TeleopCargoShoot;
+import frc.robot.teleopcommands.TeleopDrive;
+import frc.robot.teleopcommands.TeleopHatch;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,10 +32,17 @@ import jaci.pathfinder.followers.EncoderFollower;
  */
 public class Robot extends TimedRobot {
 
-  private static final String kDefaultAuto = "Default";
-  private static final String kVisionAuto = "VisionFollow";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  /*TODO:
+  1) Implement Joystick commands
+  2) test all solenoids
+  3) tune drive encoders
+  4) tune hatch mechanism
+  5) tune autoallign
+  6) create trajectories
+  7) tune arm angle*/
+
+  private final SendableChooser<String> startingPosition = new SendableChooser<>();
+  private final SendableChooser<String> endingPosition = new SendableChooser<>();
   
   public static BaseCamera camera = new ImplCamera();
 
@@ -46,10 +54,15 @@ public class Robot extends TimedRobot {
   public static Climb climb = new Climb();
   public static HatchArm hatchArm = new HatchArm();
 
-  public static OI oi = new OI();
-  
+  public static TeleopDrive teleopDrive = new TeleopDrive();
+  public static TeleopCargoShoot teleopCargoShoot = new TeleopCargoShoot();
+  public static SmartDash smartDash = new SmartDash();
+  public static TeleopCameraController teleopCameraController = new TeleopCameraController();
+  public static TeleopHatch teleopHatch = new TeleopHatch();
 
-  private Command teleopCameraController = new TeleopCameraController();
+  public static AutoSwitchCommand autoSwitchCommand;
+
+  public static OI oi = new OI();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -58,8 +71,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    startingPosition.setDefaultOption("levelOneRight", "levelOneRight");
+    startingPosition.addOption("levelOneCenter", "levelOneCenter");
+    startingPosition.addOption("levelOneLeft", "levelOneLeft");
+    startingPosition.addOption("levelTwoLeft", "levelTwoLeft");
+    startingPosition.addOption("levelTwoRight", "levelTwoRight");
+    SmartDashboard.putData("Starting Position", startingPosition);
+    endingPosition.setDefaultOption("rightFront", "rightFront");
+    endingPosition.addOption("rightFirst", "rightFirst");
+    endingPosition.addOption("rightSecond", "rightSecond");
+    endingPosition.addOption("rightThird", "rightThird");
+    endingPosition.addOption("leftFront", "leftFront");
+    endingPosition.addOption("leftFirst", "leftFirst");
+    endingPosition.addOption("leftSecond", "leftSecond");
+    endingPosition.addOption("leftThird", "leftThird");
+    SmartDashboard.putData("Ending Position", endingPosition);
   }
 
   /**
@@ -89,16 +115,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    m_autoSelected = kVisionAuto;
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    // System.out.println("Auto selected: " + m_autoSelected);
-
-    switch (m_autoSelected) {
-    case kDefaultAuto:
-      break;
-    }
+    super.autonomousInit();
+    autoSwitchCommand = new AutoSwitchCommand(endingPosition.getSelected(), startingPosition.getSelected());
+    autoSwitchCommand.start();
   }
 
   /**
@@ -107,20 +126,16 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    switch (m_autoSelected) {
-    case kDefaultAuto:
-      // Put default auto code here
-      // System.out.println("Auto periodic run");
-      break;
-    case kVisionAuto:
-      break;
-    }
   }
 
   @Override
   public void teleopInit() {
     super.teleopInit();
     teleopCameraController.start();
+    teleopCargoShoot.start();
+    smartDash.start();
+    teleopDrive.start();
+    teleopHatch.start();
   }
 
   /**
