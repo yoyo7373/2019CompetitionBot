@@ -42,6 +42,8 @@ public class RobotMap {
     public static final int SHOOT_IN_BUTTON = 2;
 
     //Drive Buttons
-    public static final int AUTOALIGNBUTTON = 3;
+    public static final int AUTO_ALIGN_BUTTON = 3;
+    public static final int CAMERA_BUTTON_SWITCH_SIDES = 11;
+    public static final int CAMERA_BUTTON_UPDOWN = 12;
 
 }

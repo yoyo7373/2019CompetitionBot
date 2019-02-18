@@ -9,10 +9,13 @@ package frc.robot.teleopcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class TeleopCameraController extends Command {
 
-  private boolean isForward;
+  private boolean isForward = true;
+  private boolean isUp = true;
+
   public TeleopCameraController() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.cameraController);
@@ -21,24 +24,29 @@ public class TeleopCameraController extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    isForward = true;
     Robot.cameraController.setX(0.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.oi.driveStick.getRawButtonReleased(11)) {
-      if (isForward == true) {
+    if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.CAMERA_BUTTON_SWITCH_SIDES)) {
+      if (isForward) {
+        Robot.cameraController.setZ(1);
         isForward = false;
       } else {
+        Robot.cameraController.setZ(0);
         isForward = true;
       }
     }
-    if (isForward == true) {
-      Robot.cameraController.setZ(1);
-    } else {
-      Robot.cameraController.setZ(0);
+    if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.CAMERA_BUTTON_SWITCH_SIDES)) {
+      if (isUp) {
+        Robot.cameraController.setX(0.5);
+        isUp = false;
+      } else {
+        Robot.cameraController.setX(0);
+        isUp = true;
+      }
     }
   }
 

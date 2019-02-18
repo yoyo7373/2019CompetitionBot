@@ -11,6 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class TeleopDrive extends Command {
+
+  private final static double Y_THRESHOLD = 0.3;
+  private final static double Z_THRESHOLD = 0.3;
+
+  private final static double Y_NERF = 1;
+  private final static double Z_NERF = 0.8;
+
   public TeleopDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.drivetrain);
@@ -26,8 +33,9 @@ public class TeleopDrive extends Command {
   protected void execute() {
     double y = Robot.oi.getDriveY();
     double z = Robot.oi.getDriveX();
-    
-    Robot.drivetrain.arcade(y, z);
+		double yInput = Y_NERF * (Math.abs(y) < Y_THRESHOLD ? 0 : -y);
+    double zInput = Z_NERF * (Math.abs(z) < Z_THRESHOLD ? 0 : -z);
+    Robot.drivetrain.arcade(yInput, zInput);
   }
 
   // Make this return true when this Command no longer needs to run execute()
