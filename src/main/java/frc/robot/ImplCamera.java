@@ -6,17 +6,17 @@ public class ImplCamera extends BaseCamera {
 
     @Override
     protected double getLeftX() {
-        return 0;
+        return Robot.robotTables.leftTargetX();
     }
 
     @Override
     protected double getRightX() {
-        return 0;
+        return Robot.robotTables.rightTargetX();
     }
 
     @Override
     public double getD() {
-        return 0;
+        return Robot.robotTables.distanceTarget();
     }
 
     @Override

@@ -24,57 +24,53 @@ public class AutoSwitchCommand extends CommandGroup {
 
       case "rightFront":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
 
       return;
 
       case "rightFirst":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "rightSecond":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "rightThird":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "leftFront":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "leftFirst":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "leftSecond":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
       case "leftThird":
       addSequential(new FollowPathCommand("/home/lvuser/deploy/" + autoMovement + startPosition + ".left.pf1.csv", "/home/lvuser/deploy/" + autoMovement + startPosition + ".right.pf1.csv"));
-      addSequential(new DriveToTargetCommand());
+      addSequential(new AutoAlignCommand());
       addSequential(new PlaceHatchCommand());
       return;
 
     }
-
-
-
-   
   }
 }
