@@ -34,9 +34,11 @@ public class TeleopCameraController extends Command {
       if (isForward) {
         Robot.cameraController.setZ(1);
         isForward = false;
+        Robot.driveTrain.setDirection(-1);
       } else {
         Robot.cameraController.setZ(0);
         isForward = true;
+        Robot.driveTrain.setDirection(1);
       }
     }
     if (Robot.oi.operatorStick.getRawButtonReleased(RobotMap.CAMERA_BUTTON_SWITCH_SIDES)) {

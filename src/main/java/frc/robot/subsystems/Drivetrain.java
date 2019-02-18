@@ -59,6 +59,10 @@ public class DriveTrain extends Subsystem {
   private DoubleSolenoid gearShiftRight;
   private Boolean fast = true;
 
+  //Orientation Swap
+
+  private int reverseDirection = 1;
+
   public DriveTrain() {
 
     gearShiftRight = new DoubleSolenoid(RobotMap.GS_RIGHT_SOLENOID_CHANNEL_IN, RobotMap.GS_RIGHT_SOLENOID_CHANNEL_OUT);
@@ -72,7 +76,6 @@ public class DriveTrain extends Subsystem {
     
     // Enable drivetrain
     drive.setSafetyEnabled(false);
-    
   }
 
   @Override
@@ -111,8 +114,8 @@ public class DriveTrain extends Subsystem {
     drive.tankDrive(left, right);
   }
 
-  public void arcade(double xSpeed, double zRotation) {
-    drive.arcadeDrive(xSpeed, zRotation);
+  public void arcade(double ySpeed, double zRotation) {
+    drive.arcadeDrive(ySpeed * reverseDirection, zRotation * reverseDirection);
   }
 
   public void shiftUp() {
@@ -141,5 +144,9 @@ public class DriveTrain extends Subsystem {
   }
   public double getAngle() {
     return gyro.getAngle();
+  }
+
+  public void setDirection(int direction) {
+    reverseDirection = direction;
   }
 }
