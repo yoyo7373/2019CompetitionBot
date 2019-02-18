@@ -10,7 +10,6 @@ package frc.robot.teleopcommands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.CargoArm;
 
 public class TeleopCargoShoot extends Command {
   public TeleopCargoShoot() {
@@ -28,22 +27,22 @@ public class TeleopCargoShoot extends Command {
   protected void execute() {
     if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON)){
       Robot.cargoArm.shootOut();
-    }
-    if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_IN_BUTTON)){
+    } else if (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_IN_BUTTON)){
       Robot.cargoArm.shootIn();
+    } else {
+      Robot.cargoArm.stopShoot();
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Robot.oi.isOperatorButtonDown(RobotMap.SHOOT_OUT_BUTTON) == false);
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoArm.stopShoot();
   }
 
   // Called when another command which requires one or more of the same
