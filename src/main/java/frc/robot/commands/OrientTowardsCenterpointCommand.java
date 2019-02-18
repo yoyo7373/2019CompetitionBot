@@ -43,7 +43,7 @@ public class OrientTowardsCenterpointCommand extends Command {
 
         @Override
         public void pidWrite(double output) {
-            Robot.drivetrain.arcade(0.0, output * Constants.CENTERPOINT_ROTATION_CONSTANT);
+            Robot.driveTrain.arcade(0.0, output * Constants.CENTERPOINT_ROTATION_CONSTANT);
         }
 
     }
@@ -60,7 +60,7 @@ public class OrientTowardsCenterpointCommand extends Command {
         this.pid.setAbsoluteTolerance(0.2);
         
         this.requires(Robot.camera);
-        this.requires(Robot.drivetrain);
+        this.requires(Robot.driveTrain);
     }
 
     @Override
