@@ -20,7 +20,7 @@ public class TeleopDrive extends Command {
 
   public TeleopDrive() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.drivetrain);
+    requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -35,7 +35,7 @@ public class TeleopDrive extends Command {
     double z = Robot.oi.getDriveX();
 		double yInput = Y_NERF * (Math.abs(y) < Y_THRESHOLD ? 0 : -y);
     double zInput = Z_NERF * (Math.abs(z) < Z_THRESHOLD ? 0 : -z);
-    Robot.drivetrain.arcade(yInput, zInput);
+    Robot.driveTrain.arcade(yInput, zInput);
   }
 
   // Make this return true when this Command no longer needs to run execute()

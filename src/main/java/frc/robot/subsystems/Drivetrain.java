@@ -16,35 +16,44 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.followers.EncoderFollower;
 
 /**
  * Add your docs here.
  */
-public class Drivetrain extends Subsystem {
+public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  //Left motor controllers
+  // Left motor controllers
   private CANSparkMax left1 = new CANSparkMax(RobotMap.LEFT_DRIVE_1, MotorType.kBrushless);
   private CANSparkMax left2 = new CANSparkMax(RobotMap.LEFT_DRIVE_2, MotorType.kBrushless);
   private CANSparkMax left3 = new CANSparkMax(RobotMap.LEFT_DRIVE_3, MotorType.kBrushless);
 
   private SpeedControllerGroup leftMotors = new SpeedControllerGroup(left1, left2, left3);
 
-  //Right motor controllers
+  // Right motor controllers
   private CANSparkMax right1 = new CANSparkMax(RobotMap.RIGHT_DRIVE_1, MotorType.kBrushless);
   private CANSparkMax right2 = new CANSparkMax(RobotMap.RIGHT_DRIVE_2, MotorType.kBrushless);
   private CANSparkMax right3 = new CANSparkMax(RobotMap.RIGHT_DRIVE_3, MotorType.kBrushless);
 
   private SpeedControllerGroup rightMotors = new SpeedControllerGroup(right1, right2, right3);
 
-  //Drive controller
+  // Drive controller
   private DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
-  //Gyto
+  private CANEncoder leftEncoder = left1.getEncoder();
+  private CANEncoder rightEncoder = right1.getEncoder();
+
+  // Gyto
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-  public Drivetrain() {
+  //Trajectory encoder followers
+  private EncoderFollower leftFollower;
+  private EncoderFollower rightFollower;
+
+  public DriveTrain() {
     // Set up gyro
     gyro.calibrate();
 
@@ -55,9 +64,35 @@ public class Drivetrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(null);
+    //setDefaultCommand(null);
   }
 
+  public void trajectoryFollowInit(Trajectory leftTraj, Trajectory rightTraj) {
+    leftFollower = new EncoderFollower(leftTraj);
+    rightFollower = new EncoderFollower(rightTraj);
+
+    // encoder position, 360 ticks/revolution, 0.1524 m = 6 in wheel diameter
+    // right encoder is different: 250 ticks/revolution
+    leftFollower.configureEncoder((int) leftEncoder.getPosition(), 360, 0.1524);
+    rightFollower.configureEncoder((int) rightEncoder.getPosition(), 250, 0.1524);
+
+    leftFollower.configurePIDVA(1, 0, 0.9, 1 / 2.5, 0);
+    rightFollower.configurePIDVA(1, 0, 0.9, 1 / 3.2, 0);
+  }
+
+  public void trajectoryFollowRun() {
+    double leftOutput = leftFollower.calculate((int) leftEncoder.getPosition());
+    double rightOutput = rightFollower.calculate((int) rightEncoder.getPosition());
+
+    // double gyro_heading = gyro.getAngle() % 360;
+    // double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
+
+    // double angleDifference = Pathfinder.boundHalfDegrees(desired_heading -
+    // gyro_heading);
+    // double turn = 0.8 * (-1.0/80.0) * angleDifference;
+    double turnTraj = 0;
+    tank(leftOutput + turnTraj, rightOutput - turnTraj);
+  } 
   public void tank(double left, double right) {
     drive.tankDrive(left, right);
   }
@@ -71,11 +106,11 @@ public class Drivetrain extends Subsystem {
   }
 
   public CANEncoder getLeftEncoder() {
-    return left1.getEncoder();
+    return leftEncoder;
   }
 
   public CANEncoder getRightEncoder() {
-    return right1.getEncoder();
+    return rightEncoder;
   }
   public double getAngle() {
     return gyro.getAngle();

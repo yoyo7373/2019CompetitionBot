@@ -7,13 +7,25 @@
 
 package frc.robot.autocommands;
 
+import java.io.File;
+
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
 
 public class FollowPathCommand extends Command {
 
+<<<<<<< HEAD
+  private String fileLocation;
+
+  public FollowPathCommand(String location) {
+    fileLocation = location;
+=======
   String pathFile;
   public FollowPathCommand(String file) {
     this.pathFile = file;
+>>>>>>> master
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -21,6 +33,10 @@ public class FollowPathCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    File leftFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.left.pf1.csv");
+    File rightFile = new File("/home/lvuser/deploy/ForwardLeftThenRight.right.pf1.csv");
+    Trajectory leftTraj = Pathfinder.readFromCSV(rightFile);
+    Trajectory rightTraj = Pathfinder.readFromCSV(leftFile);
   }
 
   // Called repeatedly when this Command is scheduled to run
