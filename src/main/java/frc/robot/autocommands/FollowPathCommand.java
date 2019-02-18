@@ -16,10 +16,16 @@ import jaci.pathfinder.Trajectory;
 
 public class FollowPathCommand extends Command {
 
+<<<<<<< HEAD
   private String fileLocation;
 
   public FollowPathCommand(String location) {
     fileLocation = location;
+=======
+  String pathFile;
+  public FollowPathCommand(String file) {
+    this.pathFile = file;
+>>>>>>> master
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
