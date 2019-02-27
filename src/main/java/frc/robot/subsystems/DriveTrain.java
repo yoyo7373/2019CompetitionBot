@@ -56,13 +56,15 @@ public class DriveTrain extends Subsystem {
 
   //Solenoid to control gear shift
   private DoubleSolenoid gearShift = new DoubleSolenoid(RobotMap.GEAR_SHIFT_IN, RobotMap.GEAR_SHIFT_OUT);
-  private boolean fast = true;
+  private boolean isFastGear = true;
 
   //Orientation Swap
 
   private int reverseDirection = 1;
 
   public DriveTrain() {
+
+    gearShift.set(DoubleSolenoid.Value.kReverse);
 
     // Set up gyro
     gyro.calibrate();
@@ -113,11 +115,17 @@ public class DriveTrain extends Subsystem {
   }
 
   public void shiftUp() {
-    fast = true;
+    if (isFastGear) {    
+      isFastGear = true;
+      gearShift.set(DoubleSolenoid.Value.kForward);
+    }
   }
 
   public void shiftDown() {
-    fast = false;
+    if (!isFastGear) {
+      isFastGear = false;
+      gearShift.set(DoubleSolenoid.Value.kReverse);
+    }
   }
 
 
@@ -136,7 +144,7 @@ public class DriveTrain extends Subsystem {
     return gyro.getAngle();
   }
 
-  public void setDirection(int direction) {
-    reverseDirection = direction;
+  public void reverseDirection() {
+    reverseDirection = reverseDirection * -1;
   }
 }

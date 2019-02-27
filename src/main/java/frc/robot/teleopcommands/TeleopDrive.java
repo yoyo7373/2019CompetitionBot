@@ -9,6 +9,7 @@ package frc.robot.teleopcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class TeleopDrive extends Command {
 
@@ -17,6 +18,8 @@ public class TeleopDrive extends Command {
 
   private final static double Y_NERF = 1;
   private final static double Z_NERF = 0.8;
+
+  private boolean isFastGear = false;
 
   public TeleopDrive() {
     // Use requires() here to declare subsystem dependencies
@@ -31,9 +34,17 @@ public class TeleopDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.oi.driveStick.getRawButtonReleased(RobotMap.SWITCH_GEARS)) {
+      if (isFastGear) {
+        Robot.driveTrain.shiftDown();
+      } else {
+        Robot.driveTrain.shiftUp();
+      }
+    }
+
     double y = Robot.oi.getDriveY();
     double z = Robot.oi.getDriveX();
-		double yInput = Y_NERF * (Math.abs(y) < Y_THRESHOLD ? 0 : -y);
+    double yInput = Y_NERF * (Math.abs(y) < Y_THRESHOLD ? 0 : -y);
     double zInput = Z_NERF * (Math.abs(z) < Z_THRESHOLD ? 0 : -z);
     Robot.driveTrain.arcade(yInput, zInput);
   }

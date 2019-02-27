@@ -54,5 +54,6 @@ public class RobotMap {
 
     //Drive Buttons
     public static final int AUTO_ALIGN_BUTTON = 3;
+    public static final int SWITCH_GEARS = 4;
 
 }
