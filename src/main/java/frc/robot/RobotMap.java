@@ -36,11 +36,10 @@ public class RobotMap {
     public final static int HATCH_SOLENOID_CHANNEL_OUT = 1; 
     public final static int LIMB_SOLENOID_CHANNEL_IN = 2; 
     public final static int LIMB_SOLENOID_CHANNEL_OUT = 3; 
-    public final static int GS_RIGHT_SOLENOID_CHANNEL_IN = 4;
-    public final static int GS_RIGHT_SOLENOID_CHANNEL_OUT = 5;
-    public final static int GS_LEFT_SOLENOID_CHANNEL_IN = 4;
-    public final static int GS_LEFT_SOLENOID_CHANNEL_OUT = 5;
-    public final static int PCM_ID = 0;
+    public final static int GEAR_SHIFT_IN = 4;
+    public final static int GEAR_SHIFT_OUT = 5;
+    public final static int PCM24V_ID = 0;
+    public final static int PCM12V_ID = 1;
 
     //Joystick Buttons
 
